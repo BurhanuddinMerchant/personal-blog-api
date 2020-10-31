@@ -1,7 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const Admin = require("../models/Admin");
-const auth = require("../middleware/authentication");
+const auth = require("../middleware/Authentication");
 
 // admin login path
 router.get("/admin/login", async (req, res) => {
