@@ -4,7 +4,7 @@ const Admin = require("../models/Admin");
 const auth = require("../middleware/Authentication");
 
 // admin login path
-router.get("/admin/login", async (req, res) => {
+router.post("/admin/login", async (req, res) => {
   try {
     const admin = await Admin.findByCredentials(
       req.body.email,
