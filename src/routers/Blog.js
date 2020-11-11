@@ -2,7 +2,8 @@ const express = require("express");
 const router = new express.Router();
 const Blog = require("../models/Blog");
 const auth = require("../middleware/Authentication");
-
+const Filter = require("bad-words");
+const filter = new Filter();
 //create new blog
 router.post("/blog", auth, async (req, res) => {
   try {
@@ -44,8 +45,8 @@ router.post("/blog/comment", async (req, res) => {
       throw new Error("No Such Blog Exists !");
     } else {
       blog.comments = blog.comments.concat({
-        comment: req.body.comment,
-        commenter: req.body.commenter,
+        comment: filter.clean(req.body.comment),
+        commenter: filter.clean(req.body.commenter),
       });
       await blog.save();
     }
