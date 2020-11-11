@@ -33,6 +33,10 @@ const blogSchema = new mongoose.Schema(
           type: String,
           required: false,
         },
+        commenter: {
+          type: String,
+          default: "Anonymous",
+        },
       },
     ],
     author: {

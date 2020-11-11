@@ -37,6 +37,41 @@ router.get("/blog/:title", async (req, res) => {
     res.status(404).send(e);
   }
 });
+router.post("/blog/comment", async (req, res) => {
+  try {
+    const blog = await Blog.findOne({ title: req.body.title });
+    if (!blog) {
+      throw new Error("No Such Blog Exists !");
+    } else {
+      blog.comments = blog.comments.concat({
+        comment: req.body.comment,
+        commenter: req.body.commenter,
+      });
+      await blog.save();
+    }
+    res.send(blog);
+  } catch (e) {
+    console.log(e);
+    res.status(404).send(e);
+  }
+});
+router.delete("/blog/comment", auth, async (req, res) => {
+  try {
+    const blog = await Blog.findOne({ title: req.body.title });
+    if (!blog) {
+      throw new Error("No Such Blog Exists !");
+    } else {
+      blog.comments = blog.comments.filter((comt) => {
+        return comt.comment !== req.body.comment;
+      });
+      await blog.save();
+    }
+    res.send(blog);
+  } catch (e) {
+    console.log(e);
+    res.status(404).send(e);
+  }
+});
 
 //delete a particular blog by title
 router.delete("/blog/:title", auth, async (req, res) => {
